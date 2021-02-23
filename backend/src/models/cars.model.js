@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.schema;
 
-let carSchema = new Schema({
+const carSchema = new mongoose.Schema({
     name: {type: String, required: true, max: 50},
     company: {type: String, required: true, max: 50},
     model: {type: String, required: true},
     users: [
-        {type: Schema.Types.ObjectId, ref: 'Users'}
-    ]
+        {type: mongoose.Schema.Types.ObjectId, ref: 'Users'}
+    ],
+    rented: {type: Boolean,required: false}
 
 })
 
