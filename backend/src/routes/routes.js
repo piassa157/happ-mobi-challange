@@ -8,6 +8,7 @@ const router = express.Router();
 router.get('/Users', usersController.index);
 router.post('/Users', usersController.store);
 
+router.post('/login', usersController.login);
 
 router.get('/Cars', carsController.index);
 router.post('/Cars', carsController.store);
