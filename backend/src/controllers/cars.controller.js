@@ -1,4 +1,6 @@
 const CarsModel = require('../models/cars.model');
+const UsersModel = require('../models/users.model')
+const RentModel = require('../models/rent.model')
 const express = require('express');
 const router = express.Router();
 
@@ -17,27 +19,54 @@ class CarsController {
 
     async rent(req, res){
     
-            const findCar = await CarsModel.findById(req.params.id);
+        const findCar = await CarsModel.findById(req.params.id);
+        const findUser = await UsersModel.findById(req.body.userId);
+        const findRent = await RentModel.find({ users: req.body.userId, car: req.params.id });
+        
+        if (!findCar && !findUser)
+        {
+            return res.status(404).send('Car or User not found');
+        }
 
-            if(findCar.rented == null)
-            {
-                const rentCar = await CarsModel.findByIdAndUpdate(req.params.id, req.body)
+        if (!findRent)
+        {
+            const rentCar = await rentModel.create({ users: req.body.userId, car: req.params.id });
+            
+            return res.json(rentCar);
+        }
 
-                return res.json(rentCar)
-            }
-
-
-            return res.status(403).send('Car has be rented');
+        return res.status(403).send('Car has be rented');
         
     }
 
     async index(req, res){
         try{
-            const getCars = await CarsModel.find({});
+            const getCars = await CarsModel.find();
 
             return res.json(getCars)
         }catch(err){
             return res.status(404).send('Error to search all cars');
+        }
+    }
+
+
+    async updateCar(req, res)
+    {
+        try {
+            const findCar = await CarsModel.findById(req.params.id);
+
+            if (!findCar)
+            {
+                return res.status(404).send('Car not found');
+            }
+
+            const updateCar = await CarsModel.findByIdAndUpdate(req.params.id, req.body);
+
+            return res.json(updateCar)
+
+
+        } catch (err) {
+            return res.status(403).send('Error to update car');
         }
     }
 }
