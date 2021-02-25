@@ -12,7 +12,8 @@ router.post('/login', usersController.login);
 
 router.get('/Cars', carsController.index);
 router.post('/Cars', carsController.store);
-router.put('/Cars/rent/:id', carsController.rent);
+router.put('/Cars', carsController.updateCar);
+router.post('/Cars/rent/:id', carsController.rent);
 
 
 module.exports = router;

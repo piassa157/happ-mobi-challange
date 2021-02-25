@@ -51,7 +51,7 @@ class UsersController {
                 return res.status(401).send('Error user not found');
             }
 
-            const updateUser = await UserMoDEL.findByIdAndUpdate(req.params.id, req.body);
+            const updateUser = await UserModel.findByIdAndUpdate(req.params.id, req.body);
 
             return res.json(updateUser);
 

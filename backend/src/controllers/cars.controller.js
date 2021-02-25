@@ -20,9 +20,9 @@ class CarsController {
     async rent(req, res){
     
         const findCar = await CarsModel.findById(req.params.id);
-        const findUser = await UsersModel.findById(req.body.userId);
-        const findRent = await RentModel.find({ users: req.body.userId, car: req.params.id });
-        
+        const findUser = await UsersModel.findById(req.body.users);
+        const findRent = await RentModel.find({ users: req.body.users, car: req.body.car });
+
         if (!findCar && !findUser)
         {
             return res.status(404).send('Car or User not found');
@@ -30,7 +30,7 @@ class CarsController {
 
         if (!findRent)
         {
-            const rentCar = await rentModel.create({ users: req.body.userId, car: req.params.id });
+            const rentCar = await RentModel.create({ users: findUser.id, car: findCar.id });
             
             return res.json(rentCar);
         }
